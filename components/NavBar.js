@@ -34,7 +34,7 @@ export default function NavBar() {
 
       <style jsx>{`
         .active {
-          color: "tomato";
+          color: tomato;
         }
       `}</style>
     </nav>
