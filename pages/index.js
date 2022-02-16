@@ -20,17 +20,17 @@ export default function Home({ results }) {
   // we can send more information on url and mask it for the browser
   // it works, only when user goes to this url from this page (from this click event)
   // if user goes to this url right way, it doesn't have data (SSR from this page)
-  const clickHandle = (id, title) => {
-    router.push(
-      {
-        pathname: `/movies/${id}`,
-        query: {
-          title,
-        },
-      },
-      `/movies/${id}`
-    );
-  };
+  // const clickHandle = (id, title) => {
+  //   router.push(
+  //     {
+  //       pathname: `/movies/${id}`,
+  //       query: {
+  //         title,
+  //       },
+  //     },
+  //     `/movies/${id}`
+  //   );
+  // };
 
   // we can also make it work the same using Link
   /*
@@ -46,6 +46,11 @@ export default function Home({ results }) {
   </Link>
   */
 
+  // store movie title onto params
+  const clickHandle = (id, title) => {
+    router.push(`/movies/${title}/${id}`);
+  };
+
   return (
     <div className="container">
       <Seo title="Home" />
@@ -58,7 +63,7 @@ export default function Home({ results }) {
         >
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
           <h4>
-            <Link href={`/movies/${movie.id}`}>
+            <Link href={`/movies/${movie.original_title}/${movie.id}`}>
               <a>{movie.original_title}</a>
             </Link>
           </h4>
