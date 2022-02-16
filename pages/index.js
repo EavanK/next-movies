@@ -1,4 +1,6 @@
 // import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import Seo from "../components/Seo";
 
 export default function Home({ results }) {
@@ -12,14 +14,54 @@ export default function Home({ results }) {
   //   })();
   // }, []);
 
+  // another way to navigate
+  const router = useRouter();
+
+  // we can send more information on url and mask it for the browser
+  // it works, only when user goes to this url from this page (from this click event)
+  // if user goes to this url right way, it doesn't have data (SSR from this page)
+  const clickHandle = (id, title) => {
+    router.push(
+      {
+        pathname: `/movies/${id}`,
+        query: {
+          title,
+        },
+      },
+      `/movies/${id}`
+    );
+  };
+
+  // we can also make it work the same using Link
+  /*
+  <Link 
+    href={{
+      pathname: `/movies/${id}`,
+      query: {
+        title,
+      },
+    }}
+    as={`/movies/${id}`}
+  >
+  </Link>
+  */
+
   return (
     <div className="container">
       <Seo title="Home" />
       {/* {!movies && <h4>Loading...</h4>} */}
       {results?.map((movie) => (
-        <div className="movie" key={movie.id}>
+        <div
+          onClick={() => clickHandle(movie.id, movie.original_title)}
+          className="movie"
+          key={movie.id}
+        >
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-          <h4>{movie.original_title}</h4>
+          <h4>
+            <Link href={`/movies/${movie.id}`}>
+              <a>{movie.original_title}</a>
+            </Link>
+          </h4>
         </div>
       ))}
       <style jsx>{`
